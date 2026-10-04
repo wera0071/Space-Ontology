@@ -1,7 +1,3 @@
-# Space Ontology Project
-
-Space ontology research project.
-
 # Space Ontology: пополнение таксономий методами NLP
 
 Учебно-исследовательский проект МГУ по предсказанию гиперонимов
