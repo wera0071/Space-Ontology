@@ -1,0 +1,9 @@
+# provider=openai model=glm-5.1 template=cot
+# terms=50 ok=43 elapsed=1339.5s
+БУЛАВА (РАКЕТА)	ERR	ReadTimeout: 
+РАКЕТА-НОСИТЕЛЬ АНГАРА	ERR	ReadTimeout: 
+ПОСАДКА ЛЕТАТЕЛЬНОГО АППАРАТА	ERR	ReadTimeout: 
+МОНОПЛАН	ERR	ReadTimeout: 
+РАКЕТА "СТУГНА-П"	ERR	ReadTimeout: 
+ЯКОВЛЕВ-40	ERR	ReadTimeout: 
+СОЗВЕЗДИЕ ЗОДИАКА	ERR	ReadTimeout: 

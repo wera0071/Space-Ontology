@@ -1,0 +1,6 @@
+#   python llm_txt_to_predict_rkt_tsv.py \
+#       --in_txt <этот файл> \
+#       --jsonl concepts.lii_thes.kosmos.json \
+#       --out_tsv <model>_<template>.tsv \
+#       --debug_tsv <model>_<template>_debug.tsv \
+#       --topk 15 --include_english

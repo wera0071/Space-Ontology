@@ -1,0 +1,5 @@
+# provider=openai model=deepseek-v4-pro template=ontology
+# terms=50 ok=47 elapsed=1020.0s
+РАКЕТНО-КОСМИЧЕСКАЯ ТЕХНИКА	ERR	ReadTimeout: 
+ИСТРЕБИТЕЛЬ MCDONNEL DOUGLAS F-15A EAGLE	ERR	ReadTimeout: 
+КОСМОС	ERR	ReadTimeout: 

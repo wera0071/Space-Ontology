@@ -1,0 +1,188 @@
+source venv/bin/activate
+
+python train.py \
+  --thesaurus_dir RuWordNet \
+  --embeddings_path spesial/ft_extended_vocab_20_11_2.wv \
+  --output_path runzerover \
+  --lang ru --pos N \
+  --processes 10 --search_by_word \
+  --allowed_rels hypernym --topk 15 \
+  --only_leafs --train_fraction 0.02
+
+
+python predict.py \
+  --model_dir run_light \
+  --input_path five_words.txt \
+  --output_path 23_02_002.tsv
+
+python predict.py \
+  --model_dir runzerover \
+  --input_path five_words.txt \
+  --output_path 23_02_001.tsv
+
+
+python eval.py \
+--predict_path 19_02_001.tsv \
+--reference_path ardered19_02_001.tsv
+
+
+
+
+python build_ruwordnet_reference.py \
+  --ruwordnet_dir RuWordNet \
+  --words_path rkt_corpus/rkt_final_terms.txt \
+  --pos N \
+  --depth 2 \
+  --out AFinish_reference_ruwordnet.tsv
+
+  python eval.py --predict_path 19_02_001.tsv --reference_path Finish_reference_ruwordnet.tsv
+
+python eval_true.py --predict_path 19_02_001.tsv --reference_path reference_merged.tsv --k 15
+python eval_true.py --predict_path 19_02_002.tsv --reference_path reference_merged.tsv --k 15
+
+
+python llm_txt_to_predict_tsv.py \
+  --in_txt gigamax2.txt \
+  --ruwordnet_dir RuWordNet \
+  --pos N \
+  --embeddings_wv spesial/ft_extended_vocab_20_11_2.wv \
+  --out_tsv gigamax2.tsv \
+  --topk 15
+
+
+  python eval_true.py \
+  --predict_path 19_02_002.tsv \
+  --reference_path reference_merged.tsv \
+  --k 15
+
+  python eval_true.py \
+  --predict_path 23_02_001.tsv \
+  --reference_path specialreference.tsv \
+  --k 15
+
+   python eval_true.py \
+  --predict_path qwen3max2promt.tsv \
+  --reference_path specialreference.tsv \
+  --k 15
+
+
+  python eval_true.py \
+  --predict_path gigamax2.tsv \
+  --reference_path reference_merged.tsv \
+  --k 15
+  
+  python eval_true.py --predict_path gigamax2_pred.tsv --reference_path reference_merged.tsv --k 15
+
+  23_02_001.tsv
+
+      python eval_true.py \
+  --predict_path 23_02_001.tsv \
+  --reference_path specialreference.tsv \
+  --k 15
+
+
+  python eval_true.py \
+  --predict_path a1.tsv \
+  --reference_path specialreference.tsv \
+  --k 15
+
+  python eval_true.py \
+  --predict_path a2.tsv \
+  --reference_path specialreference.tsv \
+  --k 15
+
+
+ python llm_txt_to_predict_tsv.py \
+  --in_txt abtests/test1.txt \
+  --ruwordnet_dir RuWordNet \
+  --pos N \
+  --out_tsv a1.tsv \
+  --topk 15 \
+  --ids_per_hypernym 5 \
+  --debug_tsv debug_match.tsv
+
+
+python llm_txt_to_predict_tsv.py \
+  --in_txt abtests/test2.txt \
+  --ruwordnet_dir RuWordNet \
+  --pos N \
+  --out_tsv a2.tsv \
+  --topk 15 \
+  --ids_per_hypernym 5 \
+  --debug_tsv debug_match.tsv
+
+
+qwen3max3promt
+gigachat2maxpromt3
+
+
+  python llm_txt_to_predict_tsv.py \
+  --in_txt gpt5_51_52.txt \
+  --ruwordnet_dir RuWordNet \
+  --pos N \
+  --out_tsv gpt5_51_52.tsv \
+  --topk 15 \
+  --ids_per_hypernym 5 \
+  --debug_tsv debug_match.tsv
+
+рктркт ТЕЕЕЕМАТИКА
+
+ mkdir -p outputs
+ python run_llm_batch.py --provider openai --model gpt-5.4 --terms rkt_dev_terms_50.txt --template zero --out outputs/gpt54_zero.txt --concurrency 5
+
+  python run_llm_batch.py --provider openai --model gpt-5.4 --terms rkt_dev_terms_50.txt --template cot --out outputs/gpt54_cot.txt --concurrency 5
+
+  python run_llm_batch.py --provider openai --model gpt-5.4 --terms rkt_dev_terms_50.txt --template ontology --out outputs/gpt54_ontology.txt --concurrency 5
+for t in zero cot ontology; do
+    python llm_txt_to_predict_rkt_tsv.py --in_txt outputs/gpt54_${t}.txt --jsonl concepts.lii_thes.kosmos.json --out_tsv outputs/gpt54_${t}.tsv --debug_tsv outputs/gpt54_${t}_debug.tsv
+  --topk 15 --include_english
+    echo "=== gpt54 / $t ==="
+    python eval_true.py --predict_path outputs/gpt54_${t}.tsv --reference_path rkt_dev_reference_50.tsv --k 15
+    python eval_rkt_soft.py --predict_path outputs/gpt54_${t}.tsv --reference_path rkt_dev_reference_50.tsv --jsonl concepts.lii_thes.kosmos.json --k 15 --depth 2
+  done
+
+for t in zero cot ontology; do                                                                                                                                                             
+    python run_llm_batch.py --provider openai --model claude-sonnet-4.6 --terms rkt_dev_terms_50.txt --template ${t} --out outputs/claude46_${t}.txt --concurrency 5                         
+  done 
+
+for t in zero cot ontology; do                                                                                                                                                             
+  cat > eval_claude.sh <<'EOF'                                    
+  for t in zero cot ontology; do                                                                                                                                                                                                
+    python llm_txt_to_predict_rkt_tsv.py --in_txt outputs/claude46_${t}.txt --jsonl concepts.lii_thes.kosmos.json --out_tsv outputs/claude46_${t}.tsv --debug_tsv outputs/claude46_${t}_debug.tsv --topk 15 --include_english
+    echo "=== claude46 / $t ==="                                                                                                                                                                                             
+    python eval_true.py --predict_path outputs/claude46_${t}.tsv --reference_path rkt_dev_reference_50.tsv --k 15                                                                                                               
+    python eval_rkt_soft.py --predict_path outputs/claude46_${t}.tsv --reference_path rkt_dev_reference_50.tsv --jsonl concepts.lii_thes.kosmos.json --k 15 --depth 2
+  done                                                                                                                                                                                                                          
+  EOF                                                                                                                                                                                                                           
+  bash eval_claude.sh
+
+for t in zero cot ontology; do python run_llm_batch.py --provider openai --model deepseek-v4-pro --terms rkt_dev_terms_50.txt --template ${t} --out outputs/dsv4_${t}.txt --concurrency 5; done
+
+for t in zero cot ontology; do python llm_txt_to_predict_rkt_tsv.py --in_txt outputs/dsv4_${t}.txt --jsonl concepts.lii_thes.kosmos.json --out_tsv outputs/dsv4_${t}.tsv --debug_tsv outputs/dsv4_${t}_debug.tsv --topk 15 --include_english; echo "=== dsv4 / $t
+   ==="; python eval_rkt_soft.py --predict_path outputs/dsv4_${t}.tsv --reference_path rkt_dev_reference_50.tsv --jsonl concepts.lii_thes.kosmos.json --k 15 --depth 2; done                  
+
+
+for t in zero cot ontology; do python run_llm_batch.py --provider openai --model glm-5.1 --terms rkt_dev_terms_50.txt --template ${t} --out outputs/glm51_${t}.txt --concurrency 5; done
+
+for t in zero cot ontology; do python llm_txt_to_predict_rkt_tsv.py --in_txt outputs/glm51_${t}.txt --jsonl concepts.lii_thes.kosmos.json --out_tsv outputs/glm51_${t}.tsv --debug_tsv outputs/glm51_${t}_debug.tsv --topk 15 --include_english; echo "=== glm51 
+  / $t ==="; python eval_rkt_soft.py --predict_path outputs/glm51_${t}.tsv --reference_path rkt_dev_reference_50.tsv --jsonl concepts.lii_thes.kosmos.json --k 15 --depth 2; done
+
+
+
+for t in zero cot ontology; do python run_llm_batch.py --provider openai --model kimi-k2.6 --terms rkt_dev_terms_50.txt --template ${t} --out outputs/kimi26_${t}.txt --concurrency 5; done
+
+for t in zero cot ontology; do python llm_txt_to_predict_rkt_tsv.py --in_txt outputs/kimi26_${t}.txt --jsonl concepts.lii_thes.kosmos.json --out_tsv outputs/kimi26_${t}.tsv --debug_tsv outputs/kimi26_${t}_debug.tsv --topk 15 --include_english; echo "=== kimi26 / $t
+   ==="; python eval_rkt_soft.py --predict_path outputs/kimi26_${t}.tsv --reference_path rkt_dev_reference_50.tsv --jsonl concepts.lii_thes.kosmos.json --k 15 --depth 2; done
+
+for t in zero cot ontology; do python run_llm_batch.py --provider openai --model gpt-5.5 --terms rkt_dev_terms_50.txt --template ${t} --out outputs/gpt55_${t}.txt --concurrency 5; done
+
+for t in zero cot ontology; do python llm_txt_to_predict_rkt_tsv.py --in_txt outputs/gpt55_${t}.txt --jsonl concepts.lii_thes.kosmos.json --out_tsv outputs/gpt55_${t}.tsv --debug_tsv outputs/gpt55_${t}_debug.tsv --topk 15 --include_english; echo "=== gpt55 / $t    
+  ==="; python eval_rkt_soft.py --predict_path outputs/gpt55_${t}.tsv --reference_path rkt_dev_reference_50.tsv --jsonl concepts.lii_thes.kosmos.json --k 15 --depth 2; done    
+
+for t in zero cot ontology; do python run_llm_batch.py --provider openai --model claude-opus-4.7 --terms rkt_dev_terms_50.txt --template ${t} --out outputs/opus47_${t}.txt --concurrency 5; done
+
+for t in zero cot ontology; do python llm_txt_to_predict_rkt_tsv.py --in_txt outputs/opus47_${t}.txt --jsonl concepts.lii_thes.kosmos.json --out_tsv outputs/opus47_${t}.tsv --debug_tsv outputs/opus47_${t}_debug.tsv --topk 15 --include_english; echo "=== opus47 / $t==="; python eval_rkt_soft.py --predict_path outputs/opus47_${t}.tsv --reference_path rkt_dev_reference_50.tsv --jsonl concepts.lii_thes.kosmos.json --k 15 --depth 2; done
+
+
+
+

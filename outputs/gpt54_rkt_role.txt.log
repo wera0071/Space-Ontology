@@ -1,0 +1,2 @@
+# provider=openai model=gpt-5.4 template=rkt_role
+# terms=50 ok=50 elapsed=43.5s

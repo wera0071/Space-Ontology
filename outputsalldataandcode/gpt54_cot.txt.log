@@ -1,0 +1,2 @@
+# provider=openai model=gpt-5.4 template=cot
+# terms=50 ok=50 elapsed=43.3s

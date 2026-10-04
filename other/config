@@ -1,0 +1,1 @@
+{"pos": "N", "topk": 40, "lang": "ru", "ruthes": false, "embeddings_path": "spesial/ft_extended_vocab_20_11_2.wv", "search_by_word": false, "processes": 8, "thesaurus_dir": "RuWordNet", "allowed_rels": ["hypernym"], "include_synset": false, "use_def": false, "wkt": false, "wiktionary_dump_path": null}

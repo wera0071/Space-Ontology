@@ -1,0 +1,2 @@
+# provider=openai model=gpt-5.4 template=ontology
+# terms=50 ok=50 elapsed=33.1s

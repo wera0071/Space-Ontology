@@ -1,0 +1,2 @@
+# provider=openai model=deepseek-v4-pro template=zero
+# terms=50 ok=50 elapsed=265.3s

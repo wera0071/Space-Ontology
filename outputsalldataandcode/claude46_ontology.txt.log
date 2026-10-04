@@ -1,0 +1,2 @@
+# provider=openai model=claude-sonnet-4.6 template=ontology
+# terms=50 ok=50 elapsed=26.8s

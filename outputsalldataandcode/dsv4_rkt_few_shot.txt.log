@@ -1,0 +1,2 @@
+# provider=openai model=deepseek-v4-pro template=rkt_few_shot
+# terms=50 ok=50 elapsed=522.7s

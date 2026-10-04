@@ -1,0 +1,2 @@
+# provider=openai model=glm-5.1 template=zero
+# terms=50 ok=50 elapsed=576.0s

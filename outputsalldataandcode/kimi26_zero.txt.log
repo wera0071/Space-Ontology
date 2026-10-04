@@ -1,0 +1,2 @@
+# provider=openai model=kimi-k2.6 template=zero
+# terms=50 ok=50 elapsed=686.7s

@@ -1,0 +1,2 @@
+# provider=openai model=claude-opus-4.7 template=rkt_few_shot
+# terms=50 ok=50 elapsed=33.8s

@@ -1,0 +1,2 @@
+# provider=openai model=gpt-5.4 template=rkt_few_shot
+# terms=50 ok=50 elapsed=24.8s

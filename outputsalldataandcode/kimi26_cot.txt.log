@@ -1,0 +1,8 @@
+# provider=openai model=kimi-k2.6 template=cot
+# terms=50 ok=44 elapsed=1190.5s
+БАЛЛИСТИЧЕСКАЯ РАКЕТА МЕНЬШЕЙ ДАЛЬНОСТИ	ERR	ReadTimeout: 
+БПЛА V-BAT MQ-35A	ERR	ReadTimeout: 
+СПУТНИК СВЯЗИ	ERR	ReadTimeout: 
+БУЛАВА (РАКЕТА)	ERR	ReadTimeout: 
+АЭРОКОСМИЧЕСКАЯ РАЗВЕДКА	ERR	ReadTimeout: 
+КРЫЛО САМОЛЕТА	ERR	ReadTimeout: 
